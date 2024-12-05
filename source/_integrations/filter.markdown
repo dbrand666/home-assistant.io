@@ -110,9 +110,11 @@ filters:
       type: string
       default: last
     update_by_time:
-      description: This defaults to `false` for backward compatibility. 
-      You probably want to set it to `true`. See [_time_simple_moving_average_] 
-      (#time-simple-moving-average) filter.
+      description: Controls whether the Time SMA filter updates based on time intervals
+      (`true`) or only when new data arrives (`false`). Defaults to `false` for
+      backward compatibility, but setting to `true` is recommended for more responsive
+      time-based averaging, especially when input values change infrequently. See
+      [_time_simple_moving_average_](#time-simple-moving-average) filter.
       required: false
       type: bool
       default: false
@@ -185,10 +187,12 @@ The paper defines three types/versions of the Simple Moving Average (SMA): *last
 
 Theta, as described in the paper, is the `window_size` parameter, and can be expressed using time notation (e.g., "00:05" for a five minutes time window).
 
-N.B. By default, the Time SMA filter is updated only when the incoming data changes. This
-works ok if the input data changes frequently but produces surprising results when the
-input values don't change for a long period of time. In geenral, you probably want to
-set the `update_by_time` parameter to `true`.
+{% note %}
+By default, the Time SMA filter updates only when new data arrives. While this works
+well with frequently changing data, it can produce unexpected results when input values
+remain constant for extended periods. In general, it is recommended to set
+`update_by_time: true` for more responsive time-based averaging.
+{% endnote %}
 
 ### Range
 
