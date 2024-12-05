@@ -57,6 +57,7 @@ sensor:
       - filter: time_simple_moving_average
         window_size: "00:05"
         precision: 2
+        update_by_time: true
 ```
 
 Filters can be chained and are applied according to the order present in the configuration file.
@@ -108,6 +109,13 @@ filters:
       required: false
       type: string
       default: last
+    update_by_time:
+      description: This defaults to `false` for backward compatibility. 
+      You probably want to set it to `true`. See [_time_simple_moving_average_] 
+      (#time-simple-moving-average) filter.
+      required: false
+      type: bool
+      default: false
     lower_bound:
       description: See [_range_](#range) filter. Lower bound for filter range.
       required: false
@@ -176,6 +184,11 @@ The Time SMA filter (`time_simple_moving_average`) is based on the paper [Algori
 The paper defines three types/versions of the Simple Moving Average (SMA): *last*, *next* and *linear*. Currently only *last* is implemented.
 
 Theta, as described in the paper, is the `window_size` parameter, and can be expressed using time notation (e.g., "00:05" for a five minutes time window).
+
+N.B. By default, the Time SMA filter is updated only when the incoming data changes. This
+works ok if the input data changes frequently but produces surprising results when the
+input values don't change for a long period of time. In geenral, you probably want to
+set the `update_by_time` parameter to `true`.
 
 ### Range
 
